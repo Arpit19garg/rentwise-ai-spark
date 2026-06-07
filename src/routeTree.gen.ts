@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as WhatifRouteImport } from './routes/whatif'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ModelRouteImport } from './routes/model'
 import { Route as FeedbackRouteImport } from './routes/feedback'
@@ -26,6 +27,11 @@ const WorkspaceRoute = WorkspaceRouteImport.update({
 const WhatifRoute = WhatifRouteImport.update({
   id: '/whatif',
   path: '/whatif',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PortfolioRoute = PortfolioRouteImport.update({
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/feedback': typeof FeedbackRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/feedback': typeof FeedbackRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/feedback': typeof FeedbackRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/model'
     | '/portfolio'
+    | '/reports'
     | '/whatif'
     | '/workspace'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/model'
     | '/portfolio'
+    | '/reports'
     | '/whatif'
     | '/workspace'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/feedback'
     | '/model'
     | '/portfolio'
+    | '/reports'
     | '/whatif'
     | '/workspace'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   FeedbackRoute: typeof FeedbackRoute
   ModelRoute: typeof ModelRoute
   PortfolioRoute: typeof PortfolioRoute
+  ReportsRoute: typeof ReportsRoute
   WhatifRoute: typeof WhatifRoute
   WorkspaceRoute: typeof WorkspaceRoute
 }
@@ -148,6 +161,13 @@ declare module '@tanstack/react-router' {
       path: '/whatif'
       fullPath: '/whatif'
       preLoaderRoute: typeof WhatifRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/portfolio': {
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeedbackRoute: FeedbackRoute,
   ModelRoute: ModelRoute,
   PortfolioRoute: PortfolioRoute,
+  ReportsRoute: ReportsRoute,
   WhatifRoute: WhatifRoute,
   WorkspaceRoute: WorkspaceRoute,
 }
