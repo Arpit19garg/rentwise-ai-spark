@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as WhatifRouteImport } from './routes/whatif'
+import { Route as ModelRouteImport } from './routes/model'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as ExplainabilityRouteImport } from './routes/explainability'
 import { Route as CompsRouteImport } from './routes/comps'
@@ -24,6 +25,11 @@ const WorkspaceRoute = WorkspaceRouteImport.update({
 const WhatifRoute = WhatifRouteImport.update({
   id: '/whatif',
   path: '/whatif',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelRoute = ModelRouteImport.update({
+  id: '/model',
+  path: '/model',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedbackRoute = FeedbackRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/model': typeof ModelRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/model': typeof ModelRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/model': typeof ModelRoute
   '/whatif': typeof WhatifRoute
   '/workspace': typeof WorkspaceRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/model'
     | '/whatif'
     | '/workspace'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/model'
     | '/whatif'
     | '/workspace'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/model'
     | '/whatif'
     | '/workspace'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   CompsRoute: typeof CompsRoute
   ExplainabilityRoute: typeof ExplainabilityRoute
   FeedbackRoute: typeof FeedbackRoute
+  ModelRoute: typeof ModelRoute
   WhatifRoute: typeof WhatifRoute
   WorkspaceRoute: typeof WorkspaceRoute
 }
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/whatif'
       fullPath: '/whatif'
       preLoaderRoute: typeof WhatifRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/model': {
+      id: '/model'
+      path: '/model'
+      fullPath: '/model'
+      preLoaderRoute: typeof ModelRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feedback': {
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompsRoute: CompsRoute,
   ExplainabilityRoute: ExplainabilityRoute,
   FeedbackRoute: FeedbackRoute,
+  ModelRoute: ModelRoute,
   WhatifRoute: WhatifRoute,
   WorkspaceRoute: WorkspaceRoute,
 }
