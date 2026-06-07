@@ -9,8 +9,68 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkspaceRouteImport } from './routes/workspace'
+import { Route as WhatifRouteImport } from './routes/whatif'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as PortfolioRouteImport } from './routes/portfolio'
+import { Route as ModelRouteImport } from './routes/model'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as FeedbackRouteImport } from './routes/feedback'
+import { Route as ExplainabilityRouteImport } from './routes/explainability'
+import { Route as CompsRouteImport } from './routes/comps'
+import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
 
+const WorkspaceRoute = WorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WhatifRoute = WhatifRouteImport.update({
+  id: '/whatif',
+  path: '/whatif',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PortfolioRoute = PortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ModelRoute = ModelRouteImport.update({
+  id: '/model',
+  path: '/model',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedbackRoute = FeedbackRouteImport.update({
+  id: '/feedback',
+  path: '/feedback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplainabilityRoute = ExplainabilityRouteImport.update({
+  id: '/explainability',
+  path: '/explainability',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompsRoute = CompsRouteImport.update({
+  id: '/comps',
+  path: '/comps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +79,172 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
+  '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
+  '/model': typeof ModelRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/whatif': typeof WhatifRoute
+  '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
+  '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
+  '/model': typeof ModelRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/whatif': typeof WhatifRoute
+  '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
+  '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
+  '/model': typeof ModelRoute
+  '/portfolio': typeof PortfolioRoute
+  '/reports': typeof ReportsRoute
+  '/whatif': typeof WhatifRoute
+  '/workspace': typeof WorkspaceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/comps'
+    | '/explainability'
+    | '/feedback'
+    | '/insights'
+    | '/model'
+    | '/portfolio'
+    | '/reports'
+    | '/whatif'
+    | '/workspace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/comps'
+    | '/explainability'
+    | '/feedback'
+    | '/insights'
+    | '/model'
+    | '/portfolio'
+    | '/reports'
+    | '/whatif'
+    | '/workspace'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/comps'
+    | '/explainability'
+    | '/feedback'
+    | '/insights'
+    | '/model'
+    | '/portfolio'
+    | '/reports'
+    | '/whatif'
+    | '/workspace'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  CompsRoute: typeof CompsRoute
+  ExplainabilityRoute: typeof ExplainabilityRoute
+  FeedbackRoute: typeof FeedbackRoute
+  InsightsRoute: typeof InsightsRoute
+  ModelRoute: typeof ModelRoute
+  PortfolioRoute: typeof PortfolioRoute
+  ReportsRoute: typeof ReportsRoute
+  WhatifRoute: typeof WhatifRoute
+  WorkspaceRoute: typeof WorkspaceRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workspace': {
+      id: '/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/whatif': {
+      id: '/whatif'
+      path: '/whatif'
+      fullPath: '/whatif'
+      preLoaderRoute: typeof WhatifRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/portfolio': {
+      id: '/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof PortfolioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/model': {
+      id: '/model'
+      path: '/model'
+      fullPath: '/model'
+      preLoaderRoute: typeof ModelRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feedback': {
+      id: '/feedback'
+      path: '/feedback'
+      fullPath: '/feedback'
+      preLoaderRoute: typeof FeedbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explainability': {
+      id: '/explainability'
+      path: '/explainability'
+      fullPath: '/explainability'
+      preLoaderRoute: typeof ExplainabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comps': {
+      id: '/comps'
+      path: '/comps'
+      fullPath: '/comps'
+      preLoaderRoute: typeof CompsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,17 +257,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  CompsRoute: CompsRoute,
+  ExplainabilityRoute: ExplainabilityRoute,
+  FeedbackRoute: FeedbackRoute,
+  InsightsRoute: InsightsRoute,
+  ModelRoute: ModelRoute,
+  PortfolioRoute: PortfolioRoute,
+  ReportsRoute: ReportsRoute,
+  WhatifRoute: WhatifRoute,
+  WorkspaceRoute: WorkspaceRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
