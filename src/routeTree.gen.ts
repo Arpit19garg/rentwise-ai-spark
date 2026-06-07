@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
+import { Route as ExplainabilityRouteImport } from './routes/explainability'
 import { Route as CompsRouteImport } from './routes/comps'
 import { Route as IndexRouteImport } from './routes/index'
 
 const WorkspaceRoute = WorkspaceRouteImport.update({
   id: '/workspace',
   path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExplainabilityRoute = ExplainabilityRouteImport.update({
+  id: '/explainability',
+  path: '/explainability',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CompsRoute = CompsRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comps': typeof CompsRoute
+  '/explainability': typeof ExplainabilityRoute
   '/workspace': typeof WorkspaceRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comps' | '/workspace'
+  fullPaths: '/' | '/comps' | '/explainability' | '/workspace'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comps' | '/workspace'
-  id: '__root__' | '/' | '/comps' | '/workspace'
+  to: '/' | '/comps' | '/explainability' | '/workspace'
+  id: '__root__' | '/' | '/comps' | '/explainability' | '/workspace'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CompsRoute: typeof CompsRoute
+  ExplainabilityRoute: typeof ExplainabilityRoute
   WorkspaceRoute: typeof WorkspaceRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/workspace'
       fullPath: '/workspace'
       preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/explainability': {
+      id: '/explainability'
+      path: '/explainability'
+      fullPath: '/explainability'
+      preLoaderRoute: typeof ExplainabilityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comps': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CompsRoute: CompsRoute,
+  ExplainabilityRoute: ExplainabilityRoute,
   WorkspaceRoute: WorkspaceRoute,
 }
 export const routeTree = rootRouteImport
