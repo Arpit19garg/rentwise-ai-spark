@@ -1,5 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { useNavigate } from "@tanstack/react-router";
+import { isValidElement, type ButtonHTMLAttributes, type ReactNode } from "react";
+import { toast } from "sonner";
 
 type NavItem = { label: string; to: string; group: string; hint?: string };
 
@@ -32,9 +34,13 @@ export function AppShell({ children }: { children: ReactNode }) {
           </div>
           <div className="leading-tight">
             <div className="text-[13px] font-semibold">RentIQ</div>
-            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">Pricing Ops</div>
+            <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+              Pricing Ops
+            </div>
           </div>
-          <div className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground mono">PROD</div>
+          <div className="ml-auto text-[10px] px-1.5 py-0.5 rounded bg-muted text-muted-foreground mono">
+            PROD
+          </div>
         </div>
 
         <nav className="flex-1 overflow-y-auto px-2 py-3 space-y-4">
@@ -56,7 +62,9 @@ export function AppShell({ children }: { children: ReactNode }) {
                             : "text-foreground/80 hover:bg-muted"
                         }`}
                       >
-                        <span className={`size-1.5 rounded-full ${active ? "bg-ai" : "bg-border-strong"}`} />
+                        <span
+                          className={`size-1.5 rounded-full ${active ? "bg-ai" : "bg-border-strong"}`}
+                        />
                         {n.label}
                       </Link>
                     </li>
@@ -81,12 +89,16 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="ml-auto flex items-center gap-2">
             <div className="hidden md:flex items-center gap-2 h-8 px-3 rounded-md bg-muted text-muted-foreground text-[12px] w-[280px]">
               <span>Search properties, comps, reports…</span>
-              <span className="ml-auto mono text-[10px] px-1.5 py-0.5 rounded bg-surface border border-border">⌘K</span>
+              <span className="ml-auto mono text-[10px] px-1.5 py-0.5 rounded bg-surface border border-border">
+                ⌘K
+              </span>
             </div>
             <TopIcon label="AI" highlight />
             <TopIcon label="Bell" />
             <TopIcon label="Help" />
-            <div className="size-8 rounded-full bg-accent grid place-items-center text-[11px] font-medium">PR</div>
+            <div className="size-8 rounded-full bg-accent grid place-items-center text-[11px] font-medium">
+              PR
+            </div>
           </div>
         </header>
 
@@ -99,6 +111,10 @@ export function AppShell({ children }: { children: ReactNode }) {
 function TopIcon({ label, highlight }: { label: string; highlight?: boolean }) {
   return (
     <button
+      type="button"
+      onClick={() =>
+        toast.info(`${label} center opened`, { description: "Demo workspace action completed." })
+      }
       className={`size-8 grid place-items-center rounded-md border text-[10px] font-medium uppercase tracking-wider ${
         highlight
           ? "bg-ai-soft border-[color-mix(in_oklch,var(--ai)_30%,transparent)] text-ai"
@@ -131,7 +147,9 @@ function Breadcrumbs({ path }: { path: string }) {
       {crumbs.map((c, i) => (
         <span key={i} className="flex items-center gap-1.5">
           <span className="text-border-strong">/</span>
-          <span className={i === crumbs.length - 1 ? "font-medium" : "text-muted-foreground"}>{c}</span>
+          <span className={i === crumbs.length - 1 ? "font-medium" : "text-muted-foreground"}>
+            {c}
+          </span>
         </span>
       ))}
     </div>
@@ -194,12 +212,16 @@ export function Btn({
   variant = "secondary",
   size = "sm",
   className = "",
+  onClick,
+  type = "button",
+  ...props
 }: {
   children: ReactNode;
   variant?: "primary" | "secondary" | "ghost" | "ai" | "danger";
   size?: "sm" | "md";
   className?: string;
-}) {
+} & ButtonHTMLAttributes<HTMLButtonElement>) {
+  const navigate = useNavigate();
   const v = {
     primary: "bg-primary text-primary-foreground hover:opacity-90",
     secondary: "bg-surface border border-border hover:bg-muted",
@@ -208,7 +230,108 @@ export function Btn({
     danger: "bg-destructive text-destructive-foreground",
   }[variant];
   const s = size === "md" ? "h-9 px-3.5 text-[13px]" : "h-7 px-2.5 text-[12px]";
-  return <button className={`${v} ${s} rounded-md font-medium inline-flex items-center gap-1.5 ${className}`}>{children}</button>;
+  const label = nodeText(children).trim().replace(/\s+/g, " ");
+
+  return (
+    <button
+      {...props}
+      type={type}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!event.defaultPrevented) {
+          runDefaultAction(label, navigate);
+        }
+      }}
+      className={`${v} ${s} rounded-md font-medium inline-flex items-center gap-1.5 ${className}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function nodeText(node: ReactNode): string {
+  if (node == null || typeof node === "boolean") return "";
+  if (typeof node === "string" || typeof node === "number") return String(node);
+  if (Array.isArray(node)) return node.map(nodeText).join(" ");
+  if (isValidElement<{ children?: ReactNode }>(node)) return nodeText(node.props.children);
+  return "";
+}
+
+function runDefaultAction(label: string, navigate: ReturnType<typeof useNavigate>) {
+  const normalized = label.toLowerCase();
+
+  if (
+    normalized.includes("open review queue") ||
+    normalized === "approve a" ||
+    normalized === "open"
+  ) {
+    navigate({ to: "/workspace" });
+    toast.success("Review workspace opened");
+    return;
+  }
+  if (normalized.includes("what-if")) {
+    navigate({ to: "/whatif" });
+    toast.success("Scenario simulator opened");
+    return;
+  }
+  if (normalized.includes("explain") || normalized.includes("copilot")) {
+    navigate({ to: "/explainability" });
+    toast.success("Explainability view opened");
+    return;
+  }
+  if (normalized.includes("feedback")) {
+    navigate({ to: "/feedback" });
+    toast.success("Feedback center opened");
+    return;
+  }
+  if (normalized.includes("export") || normalized.includes("pdf")) {
+    downloadText(
+      "rentiq-export.csv",
+      "metric,value\napproved_recommendations,2184\nrevenue_lift,1420000\nconfidence,82\n",
+    );
+    toast.success("Export downloaded");
+    return;
+  }
+  if (normalized.includes("report") || normalized.includes("schedule")) {
+    downloadText(
+      "rentiq-report.txt",
+      "RentIQ scheduled report\nStatus: ready\nDelivery: Monday 9:00 ET\n",
+    );
+    toast.success("Report action completed");
+    return;
+  }
+  if (normalized.includes("approve") || normalized.includes("promote")) {
+    toast.success("Approval recorded", { description: "Decision added to the audit trail." });
+    return;
+  }
+  if (normalized.includes("rollback")) {
+    toast.warning("Rollback staged", {
+      description: "Model v4.1 remains active until confirmation.",
+    });
+    return;
+  }
+  if (normalized.includes("generate") || normalized.includes("ai") || normalized.includes("rank")) {
+    toast.success("AI workflow completed", { description: "Demo recommendations refreshed." });
+    return;
+  }
+  if (normalized.includes("prev") || normalized.includes("next") || normalized.includes("skip")) {
+    toast.info("Review queue advanced");
+    return;
+  }
+
+  toast.info(label ? `${label} completed` : "Action completed");
+}
+
+function downloadText(filename: string, content: string) {
+  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
 }
 
 export function Chip({
@@ -220,26 +343,41 @@ export function Chip({
 }) {
   const t = {
     neutral: "bg-muted text-muted-foreground border-border",
-    success: "bg-[color-mix(in_oklch,var(--success)_15%,transparent)] text-[color-mix(in_oklch,var(--success)_60%,black)] border-[color-mix(in_oklch,var(--success)_30%,transparent)]",
-    warning: "bg-[color-mix(in_oklch,var(--warning)_18%,transparent)] text-[color-mix(in_oklch,var(--warning)_45%,black)] border-[color-mix(in_oklch,var(--warning)_35%,transparent)]",
-    danger: "bg-[color-mix(in_oklch,var(--destructive)_12%,transparent)] text-destructive border-[color-mix(in_oklch,var(--destructive)_30%,transparent)]",
+    success:
+      "bg-[color-mix(in_oklch,var(--success)_15%,transparent)] text-[color-mix(in_oklch,var(--success)_60%,black)] border-[color-mix(in_oklch,var(--success)_30%,transparent)]",
+    warning:
+      "bg-[color-mix(in_oklch,var(--warning)_18%,transparent)] text-[color-mix(in_oklch,var(--warning)_45%,black)] border-[color-mix(in_oklch,var(--warning)_35%,transparent)]",
+    danger:
+      "bg-[color-mix(in_oklch,var(--destructive)_12%,transparent)] text-destructive border-[color-mix(in_oklch,var(--destructive)_30%,transparent)]",
     info: "bg-[color-mix(in_oklch,var(--info)_12%,transparent)] text-[color-mix(in_oklch,var(--info)_55%,black)] border-[color-mix(in_oklch,var(--info)_30%,transparent)]",
     ai: "bg-ai-soft text-ai border-[color-mix(in_oklch,var(--ai)_30%,transparent)]",
   }[tone];
   return (
-    <span className={`inline-flex items-center gap-1 h-5 px-2 rounded-full border text-[11px] font-medium ${t}`}>
+    <span
+      className={`inline-flex items-center gap-1 h-5 px-2 rounded-full border text-[11px] font-medium ${t}`}
+    >
       {children}
     </span>
   );
 }
 
-export function Sparkbar({ values, tone = "primary" }: { values: number[]; tone?: "primary" | "ai" | "success" }) {
+export function Sparkbar({
+  values,
+  tone = "primary",
+}: {
+  values: number[];
+  tone?: "primary" | "ai" | "success";
+}) {
   const max = Math.max(...values);
   const color = tone === "ai" ? "bg-ai" : tone === "success" ? "bg-success" : "bg-primary";
   return (
     <div className="flex items-end gap-[2px] h-8">
       {values.map((v, i) => (
-        <div key={i} className={`${color} w-1.5 rounded-sm opacity-80`} style={{ height: `${(v / max) * 100}%` }} />
+        <div
+          key={i}
+          className={`${color} w-1.5 rounded-sm opacity-80`}
+          style={{ height: `${(v / max) * 100}%` }}
+        />
       ))}
     </div>
   );
@@ -259,7 +397,13 @@ export function Sparkline({ values }: { values: number[] }) {
     .join(" ");
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-7">
-      <polyline fill="none" stroke="currentColor" strokeWidth="1.5" points={pts} className="text-primary" />
+      <polyline
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        points={pts}
+        className="text-primary"
+      />
     </svg>
   );
 }
@@ -269,11 +413,25 @@ export function ConfidenceRing({ value, size = 56 }: { value: number; size?: num
   const c = 2 * Math.PI * r;
   const off = c - (value / 100) * c;
   const tone =
-    value >= 80 ? "text-success" : value >= 65 ? "text-[color:var(--conf-3)]" : value >= 50 ? "text-warning" : "text-destructive";
+    value >= 80
+      ? "text-success"
+      : value >= 65
+        ? "text-[color:var(--conf-3)]"
+        : value >= 50
+          ? "text-warning"
+          : "text-destructive";
   return (
     <div className="relative" style={{ width: size, height: size }}>
       <svg width={size} height={size} className="-rotate-90">
-        <circle cx={size / 2} cy={size / 2} r={r} stroke="currentColor" strokeWidth="6" fill="none" className="text-muted" />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          stroke="currentColor"
+          strokeWidth="6"
+          fill="none"
+          className="text-muted"
+        />
         <circle
           cx={size / 2}
           cy={size / 2}
@@ -287,7 +445,9 @@ export function ConfidenceRing({ value, size = 56 }: { value: number; size?: num
           className={tone}
         />
       </svg>
-      <div className="absolute inset-0 grid place-items-center text-[12px] font-semibold mono">{value}%</div>
+      <div className="absolute inset-0 grid place-items-center text-[12px] font-semibold mono">
+        {value}%
+      </div>
     </div>
   );
 }

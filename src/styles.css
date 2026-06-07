@@ -70,14 +70,14 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.18 0.02 260);
 
-  --primary: oklch(0.30 0.10 265);
+  --primary: oklch(0.3 0.1 265);
   --primary-foreground: oklch(0.985 0.003 250);
 
   --secondary: oklch(0.955 0.008 250);
   --secondary-foreground: oklch(0.25 0.03 260);
 
   --muted: oklch(0.955 0.008 250);
-  --muted-foreground: oklch(0.50 0.02 260);
+  --muted-foreground: oklch(0.5 0.02 260);
 
   --accent: oklch(0.94 0.02 260);
   --accent-foreground: oklch(0.22 0.04 265);
@@ -101,7 +101,7 @@
   --grid: oklch(0.94 0.008 255);
 
   /* Confidence ramp: low -> high */
-  --conf-1: oklch(0.65 0.20 25);
+  --conf-1: oklch(0.65 0.2 25);
   --conf-2: oklch(0.75 0.17 60);
   --conf-3: oklch(0.82 0.15 90);
   --conf-4: oklch(0.72 0.16 145);
@@ -113,7 +113,8 @@
     border-color: var(--color-border);
   }
 
-  html, body {
+  html,
+  body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
@@ -122,7 +123,9 @@
   }
 
   /* Tabular numerics everywhere a number lives */
-  .num, td.num, .mono {
+  .num,
+  td.num,
+  .mono {
     font-variant-numeric: tabular-nums;
     font-family: var(--font-mono);
     letter-spacing: -0.01em;
@@ -136,7 +139,9 @@
       linear-gradient(45deg, var(--grid) 25%, transparent 25%),
       linear-gradient(-45deg, var(--grid) 25%, transparent 25%);
     background-size: 14px 14px;
-    background-position: 0 0, 7px 7px;
+    background-position:
+      0 0,
+      7px 7px;
     border: 1px dashed var(--border-strong);
     border-radius: var(--radius-md);
     color: var(--muted-foreground);

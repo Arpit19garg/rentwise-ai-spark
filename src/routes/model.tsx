@@ -12,7 +12,13 @@ function ModelPerf() {
       <PageHeader
         title="Model Performance"
         subtitle="v4.1 · deployed 2026-05-28 · traffic 95% · candidate v4.2 on 5%"
-        actions={<><Btn variant="secondary">Version compare</Btn><Btn variant="danger">Rollback</Btn><Btn variant="primary">Promote v4.2</Btn></>}
+        actions={
+          <>
+            <Btn variant="secondary">Version compare</Btn>
+            <Btn variant="danger">Rollback</Btn>
+            <Btn variant="primary">Promote v4.2</Btn>
+          </>
+        }
       />
 
       <div className="px-6 pb-6 space-y-4">
@@ -28,10 +34,14 @@ function ModelPerf() {
               ["Data freshness", "12m", "success"],
             ].map(([l, v, t]) => (
               <div key={l as string}>
-                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">{l}</div>
+                <div className="text-[11px] uppercase tracking-wider text-muted-foreground">
+                  {l}
+                </div>
                 <div className="mt-1 flex items-center gap-2">
                   <div className="text-[22px] font-semibold mono">{v}</div>
-                  <span className={`size-2 rounded-full ${t === "success" ? "bg-success" : t === "warning" ? "bg-warning" : "bg-info"}`} />
+                  <span
+                    className={`size-2 rounded-full ${t === "success" ? "bg-success" : t === "warning" ? "bg-warning" : "bg-info"}`}
+                  />
                 </div>
               </div>
             ))}
@@ -45,29 +55,43 @@ function ModelPerf() {
               <div className="grid grid-cols-[120px_repeat(6,1fr)] gap-px bg-border text-[11px]">
                 <div className="bg-surface px-2 py-2 text-muted-foreground">Region \ Type</div>
                 {["Studio", "1BR", "2BR", "3BR", "4BR", "TH"].map((c) => (
-                  <div key={c} className="bg-surface px-2 py-2 text-center text-muted-foreground">{c}</div>
+                  <div key={c} className="bg-surface px-2 py-2 text-center text-muted-foreground">
+                    {c}
+                  </div>
                 ))}
-                {["Atlanta","Charlotte","Nashville","Raleigh","Tampa","Austin","Phoenix"].map((r, ri) => (
-                  <>
-                    <div key={r} className="bg-surface px-2 py-2">{r}</div>
-                    {Array.from({ length: 6 }).map((_, ci) => {
-                      const v = ((ri * 7 + ci * 11) % 50) / 10 + 2;
-                      const score = v;
-                      const bg = `color-mix(in oklch, var(--success) ${Math.max(0, 90 - score * 12)}%, color-mix(in oklch, var(--destructive) ${Math.min(80, score * 12)}%, transparent))`;
-                      return (
-                        <div key={ci} className="px-2 py-2 text-center mono text-[11px]" style={{ background: bg }}>
-                          {score.toFixed(1)}%
-                        </div>
-                      );
-                    })}
-                  </>
-                ))}
+                {["Atlanta", "Charlotte", "Nashville", "Raleigh", "Tampa", "Austin", "Phoenix"].map(
+                  (r, ri) => (
+                    <>
+                      <div key={r} className="bg-surface px-2 py-2">
+                        {r}
+                      </div>
+                      {Array.from({ length: 6 }).map((_, ci) => {
+                        const v = ((ri * 7 + ci * 11) % 50) / 10 + 2;
+                        const score = v;
+                        const bg = `color-mix(in oklch, var(--success) ${Math.max(0, 90 - score * 12)}%, color-mix(in oklch, var(--destructive) ${Math.min(80, score * 12)}%, transparent))`;
+                        return (
+                          <div
+                            key={ci}
+                            className="px-2 py-2 text-center mono text-[11px]"
+                            style={{ background: bg }}
+                          >
+                            {score.toFixed(1)}%
+                          </div>
+                        );
+                      })}
+                    </>
+                  ),
+                )}
               </div>
             </div>
           </Card>
 
           {/* Calibration */}
-          <Card className="col-span-5" title="Confidence calibration" hint="Predicted vs actual hit rate">
+          <Card
+            className="col-span-5"
+            title="Confidence calibration"
+            hint="Predicted vs actual hit rate"
+          >
             <div className="p-4">
               <CalibrationChart />
               <div className="mt-2 text-[11.5px] text-muted-foreground">
@@ -89,7 +113,10 @@ function ModelPerf() {
                 ["future_supply_units", 0.22, "alert"],
                 ["seasonality_index", 0.07, "ok"],
               ].map(([f, v, t]) => (
-                <div key={f as string} className="grid grid-cols-[200px_1fr_60px_60px] items-center gap-3">
+                <div
+                  key={f as string}
+                  className="grid grid-cols-[200px_1fr_60px_60px] items-center gap-3"
+                >
                   <span className="mono">{f}</span>
                   <div className="h-1.5 bg-muted rounded overflow-hidden relative">
                     <div className="absolute inset-y-0 left-[40%] w-px bg-warning" />
@@ -100,14 +127,20 @@ function ModelPerf() {
                     />
                   </div>
                   <span className="mono text-right">{(v as number).toFixed(2)}</span>
-                  <Chip tone={t === "ok" ? "success" : t === "warn" ? "warning" : "danger"}>{t === "ok" ? "Stable" : t === "warn" ? "Watch" : "Alert"}</Chip>
+                  <Chip tone={t === "ok" ? "success" : t === "warn" ? "warning" : "danger"}>
+                    {t === "ok" ? "Stable" : t === "warn" ? "Watch" : "Alert"}
+                  </Chip>
                 </div>
               ))}
             </div>
           </Card>
 
           {/* Version compare */}
-          <Card className="col-span-5" title="Version compare" hint="v4.1 (live) vs v4.2 (candidate)">
+          <Card
+            className="col-span-5"
+            title="Version compare"
+            hint="v4.1 (live) vs v4.2 (candidate)"
+          >
             <table className="w-full text-[12.5px]">
               <thead className="bg-muted/60 text-[11px] uppercase tracking-wider text-muted-foreground">
                 <tr>
@@ -129,7 +162,11 @@ function ModelPerf() {
                     <td className="px-4 py-2">{k}</td>
                     <td className="px-2 py-2 text-right mono text-muted-foreground">{a}</td>
                     <td className="px-2 py-2 text-right mono font-medium">{b}</td>
-                    <td className={`px-4 py-2 text-right mono ${t === "good" ? "text-success" : "text-destructive"}`}>{d}</td>
+                    <td
+                      className={`px-4 py-2 text-right mono ${t === "good" ? "text-success" : "text-destructive"}`}
+                    >
+                      {d}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -142,12 +179,30 @@ function ModelPerf() {
 }
 
 function CalibrationChart() {
-  const w = 280, h = 200;
-  const pts = [[10,12],[20,23],[30,32],[40,42],[50,49],[60,58],[70,71],[80,84],[90,93]];
+  const w = 280,
+    h = 200;
+  const pts = [
+    [10, 12],
+    [20, 23],
+    [30, 32],
+    [40, 42],
+    [50, 49],
+    [60, 58],
+    [70, 71],
+    [80, 84],
+    [90, 93],
+  ];
   return (
     <svg viewBox={`0 0 ${w} ${h}`} className="w-full h-[200px]">
-      {[0,1,2,3,4].map((i) => (
-        <line key={i} x1="0" x2={w} y1={(h/5)*(i+1)} y2={(h/5)*(i+1)} stroke="var(--grid)" />
+      {[0, 1, 2, 3, 4].map((i) => (
+        <line
+          key={i}
+          x1="0"
+          x2={w}
+          y1={(h / 5) * (i + 1)}
+          y2={(h / 5) * (i + 1)}
+          stroke="var(--grid)"
+        />
       ))}
       <line x1="0" y1={h} x2={w} y2="0" stroke="var(--muted-foreground)" strokeDasharray="3 3" />
       <polyline

@@ -1,11 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AppShell, Card, PageHeader, Btn, Chip, Sparkbar, Sparkline, ConfidenceRing } from "@/components/AppShell";
+import {
+  AppShell,
+  Card,
+  PageHeader,
+  Btn,
+  Chip,
+  Sparkbar,
+  Sparkline,
+  ConfidenceRing,
+} from "@/components/AppShell";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Dashboard · RentIQ" },
-      { name: "description", content: "Portfolio-wide AI pricing visibility for residential rental operators." },
+      {
+        name: "description",
+        content: "Portfolio-wide AI pricing visibility for residential rental operators.",
+      },
     ],
   }),
   component: Dashboard,
@@ -29,15 +41,50 @@ function Dashboard() {
       <div className="px-6 pb-6 space-y-4">
         {/* Hero KPIs */}
         <div className="grid grid-cols-4 gap-3">
-          <Kpi label="Units needing review" value="27" delta="+4 vs. yest" tone="warning" spark={[2,4,3,6,5,7,4,8,5,9,7,8]} />
-          <Kpi label="Pending approvals" value="12" delta="−3 vs. yest" tone="info" spark={[8,7,9,6,5,7,4,6,5,4,5,3]} />
-          <Kpi label="Avg confidence" value="82%" delta="+1.4 pts" tone="success" spark={[70,72,71,75,78,80,79,82,81,83,82,82]} />
-          <Kpi label="30-day revenue lift" value="$1.42M" delta="+8.2%" tone="success" spark={[3,4,5,4,6,7,8,7,9,10,12,14]} />
+          <Kpi
+            label="Units needing review"
+            value="27"
+            delta="+4 vs. yest"
+            tone="warning"
+            spark={[2, 4, 3, 6, 5, 7, 4, 8, 5, 9, 7, 8]}
+          />
+          <Kpi
+            label="Pending approvals"
+            value="12"
+            delta="−3 vs. yest"
+            tone="info"
+            spark={[8, 7, 9, 6, 5, 7, 4, 6, 5, 4, 5, 3]}
+          />
+          <Kpi
+            label="Avg confidence"
+            value="82%"
+            delta="+1.4 pts"
+            tone="success"
+            spark={[70, 72, 71, 75, 78, 80, 79, 82, 81, 83, 82, 82]}
+          />
+          <Kpi
+            label="30-day revenue lift"
+            value="$1.42M"
+            delta="+8.2%"
+            tone="success"
+            spark={[3, 4, 5, 4, 6, 7, 8, 7, 9, 10, 12, 14]}
+          />
         </div>
 
         {/* Heatmap + queue */}
         <div className="grid grid-cols-12 gap-3">
-          <Card className="col-span-8" title="Market demand heatmap" hint="Demand index · last 7 days" actions={<><Btn>Demand</Btn><Btn variant="ghost">Rent Δ</Btn><Btn variant="ghost">Occupancy</Btn></>}>
+          <Card
+            className="col-span-8"
+            title="Market demand heatmap"
+            hint="Demand index · last 7 days"
+            actions={
+              <>
+                <Btn>Demand</Btn>
+                <Btn variant="ghost">Rent Δ</Btn>
+                <Btn variant="ghost">Occupancy</Btn>
+              </>
+            }
+          >
             <div className="p-4">
               <div className="wf-placeholder h-[280px] relative wf-grid-bg">
                 <div className="absolute inset-0 grid grid-cols-12 grid-rows-6 gap-px p-3">
@@ -59,8 +106,14 @@ function Dashboard() {
                   <div className="flex items-center gap-1">
                     <span>Low</span>
                     <div className="flex gap-px">
-                      {[10,25,40,55,70,85].map((s) => (
-                        <div key={s} className="w-3 h-2" style={{ background: `color-mix(in oklch, var(--ai) ${s}%, transparent)` }} />
+                      {[10, 25, 40, 55, 70, 85].map((s) => (
+                        <div
+                          key={s}
+                          className="w-3 h-2"
+                          style={{
+                            background: `color-mix(in oklch, var(--ai) ${s}%, transparent)`,
+                          }}
+                        />
                       ))}
                     </div>
                     <span>High</span>
@@ -70,7 +123,12 @@ function Dashboard() {
             </div>
           </Card>
 
-          <Card className="col-span-4" title="Pending approvals" hint="Sorted by SLA" actions={<Btn variant="ghost">View all</Btn>}>
+          <Card
+            className="col-span-4"
+            title="Pending approvals"
+            hint="Sorted by SLA"
+            actions={<Btn variant="ghost">View all</Btn>}
+          >
             <ul className="divide-y divide-border">
               {[
                 ["1247 Peachtree St · 4B", "+3.8%", "2h", "warning"],
@@ -80,13 +138,15 @@ function Dashboard() {
                 ["3322 Buford Hwy · 4", "+5.6%", "2d", "warning"],
               ].map(([addr, delta, sla, tone]) => (
                 <li key={addr} className="px-4 py-2.5 flex items-center gap-3 hover:bg-muted/50">
-                  <div className="size-7 rounded-md bg-muted grid place-items-center text-[10px] font-medium">PR</div>
+                  <div className="size-7 rounded-md bg-muted grid place-items-center text-[10px] font-medium">
+                    PR
+                  </div>
                   <div className="min-w-0 flex-1">
                     <div className="text-[12.5px] truncate">{addr}</div>
                     <div className="text-[10.5px] text-muted-foreground">Atlanta · 2BR/2BA</div>
                   </div>
                   <span className="mono text-[12px]">{delta}</span>
-                  <Chip tone={tone as any}>{sla}</Chip>
+                  <Chip tone={tone as "warning" | "info" | "danger"}>{sla}</Chip>
                 </li>
               ))}
             </ul>
@@ -95,17 +155,36 @@ function Dashboard() {
 
         {/* Occupancy + Regional */}
         <div className="grid grid-cols-12 gap-3">
-          <Card className="col-span-6" title="Occupancy vs. forecast" hint="90-day" actions={<Chip tone="ai">✦ AI forecast band</Chip>}>
+          <Card
+            className="col-span-6"
+            title="Occupancy vs. forecast"
+            hint="90-day"
+            actions={<Chip tone="ai">✦ AI forecast band</Chip>}
+          >
             <div className="p-4">
               <ChartArea />
             </div>
           </Card>
-          <Card className="col-span-6" title="Regional pricing comparison" hint="Avg rent Δ vs. submarket">
+          <Card
+            className="col-span-6"
+            title="Regional pricing comparison"
+            hint="Avg rent Δ vs. submarket"
+          >
             <div className="p-4 grid grid-cols-3 gap-3">
-              {[["Atlanta", 3.8, 92],["Charlotte", 2.1, 88],["Nashville", 4.6, 81],["Raleigh", 1.4, 90],["Tampa", 5.2, 78],["Austin", -0.8, 84]].map(([city, d, conf]) => (
+              {[
+                ["Atlanta", 3.8, 92],
+                ["Charlotte", 2.1, 88],
+                ["Nashville", 4.6, 81],
+                ["Raleigh", 1.4, 90],
+                ["Tampa", 5.2, 78],
+                ["Austin", -0.8, 84],
+              ].map(([city, d, conf]) => (
                 <div key={city as string} className="border border-border rounded-md p-3">
                   <div className="text-[12px] font-medium">{city}</div>
-                  <div className="mt-1.5 text-[18px] font-semibold mono">{Number(d) > 0 ? "+" : ""}{d}%</div>
+                  <div className="mt-1.5 text-[18px] font-semibold mono">
+                    {Number(d) > 0 ? "+" : ""}
+                    {d}%
+                  </div>
                   <div className="mt-1 flex items-center gap-1.5 text-[10.5px] text-muted-foreground">
                     <span>Conf {conf}%</span>
                     <div className="flex-1 h-1 rounded bg-muted overflow-hidden">
@@ -120,18 +199,39 @@ function Dashboard() {
 
         {/* Accuracy + Feedback + Revenue */}
         <div className="grid grid-cols-12 gap-3">
-          <Card className="col-span-4" title="AI recommendation accuracy" hint="Calibration · last 30d">
+          <Card
+            className="col-span-4"
+            title="AI recommendation accuracy"
+            hint="Calibration · last 30d"
+          >
             <div className="p-4 flex items-center gap-4">
               <ConfidenceRing value={87} size={72} />
               <div className="text-[12px] space-y-1">
-                <div className="flex justify-between gap-6"><span className="text-muted-foreground">MAPE</span><span className="mono">3.1%</span></div>
-                <div className="flex justify-between gap-6"><span className="text-muted-foreground">Override rate</span><span className="mono">14.2%</span></div>
-                <div className="flex justify-between gap-6"><span className="text-muted-foreground">Approvals (30d)</span><span className="mono">2,184</span></div>
+                <div className="flex justify-between gap-6">
+                  <span className="text-muted-foreground">MAPE</span>
+                  <span className="mono">3.1%</span>
+                </div>
+                <div className="flex justify-between gap-6">
+                  <span className="text-muted-foreground">Override rate</span>
+                  <span className="mono">14.2%</span>
+                </div>
+                <div className="flex justify-between gap-6">
+                  <span className="text-muted-foreground">Approvals (30d)</span>
+                  <span className="mono">2,184</span>
+                </div>
               </div>
             </div>
           </Card>
 
-          <Card className="col-span-4" title="Recent analyst feedback" actions={<Link to="/feedback" className="text-[12px] text-ai hover:underline">Open ↗</Link>}>
+          <Card
+            className="col-span-4"
+            title="Recent analyst feedback"
+            actions={
+              <Link to="/feedback" className="text-[12px] text-ai hover:underline">
+                Open ↗
+              </Link>
+            }
+          >
             <ul className="divide-y divide-border">
               {[
                 ["👎", "Comp #3 backs onto I-85, exclude", "Priya · 2h"],
@@ -161,7 +261,19 @@ function Dashboard() {
   );
 }
 
-function Kpi({ label, value, delta, tone, spark }: { label: string; value: string; delta: string; tone: "success" | "warning" | "info" | "danger"; spark: number[] }) {
+function Kpi({
+  label,
+  value,
+  delta,
+  tone,
+  spark,
+}: {
+  label: string;
+  value: string;
+  delta: string;
+  tone: "success" | "warning" | "info" | "danger";
+  spark: number[];
+}) {
   return (
     <Card className="p-4">
       <div className="flex items-start justify-between gap-2">
@@ -170,16 +282,20 @@ function Kpi({ label, value, delta, tone, spark }: { label: string; value: strin
       </div>
       <div className="mt-2 flex items-end justify-between gap-2">
         <div className="text-[28px] font-semibold mono leading-none">{value}</div>
-        <div className="w-24 text-primary"><Sparkbar values={spark} /></div>
+        <div className="w-24 text-primary">
+          <Sparkbar values={spark} />
+        </div>
       </div>
     </Card>
   );
 }
 
 function ChartArea() {
-  const actual = [62,64,63,68,71,70,73,75,74,77,79,82,85,84,87];
-  const forecast = [62,64,64,67,70,72,74,76,77,79,81,83,86,88,90];
-  const w = 600, h = 180, max = 100;
+  const actual = [62, 64, 63, 68, 71, 70, 73, 75, 74, 77, 79, 82, 85, 84, 87];
+  const forecast = [62, 64, 64, 67, 70, 72, 74, 76, 77, 79, 81, 83, 86, 88, 90];
+  const w = 600,
+    h = 180,
+    max = 100;
   const toPath = (vals: number[]) =>
     vals.map((v, i) => `${(i / (vals.length - 1)) * w},${h - (v / max) * h}`).join(" ");
   return (
@@ -190,14 +306,24 @@ function ChartArea() {
           <stop offset="100%" stopColor="var(--ai)" stopOpacity="0" />
         </linearGradient>
       </defs>
-      {[0,1,2,3].map((i) => (
-        <line key={i} x1="0" x2={w} y1={(h / 4) * (i + 1)} y2={(h / 4) * (i + 1)} stroke="var(--grid)" />
+      {[0, 1, 2, 3].map((i) => (
+        <line
+          key={i}
+          x1="0"
+          x2={w}
+          y1={(h / 4) * (i + 1)}
+          y2={(h / 4) * (i + 1)}
+          stroke="var(--grid)"
+        />
       ))}
-      <polygon
-        fill="url(#g)"
-        points={`0,${h} ${toPath(forecast)} ${w},${h}`}
+      <polygon fill="url(#g)" points={`0,${h} ${toPath(forecast)} ${w},${h}`} />
+      <polyline
+        fill="none"
+        stroke="var(--ai)"
+        strokeWidth="1.5"
+        strokeDasharray="4 3"
+        points={toPath(forecast)}
       />
-      <polyline fill="none" stroke="var(--ai)" strokeWidth="1.5" strokeDasharray="4 3" points={toPath(forecast)} />
       <polyline fill="none" stroke="var(--primary)" strokeWidth="2" points={toPath(actual)} />
     </svg>
   );
@@ -215,8 +341,14 @@ function Waterfall() {
     <div className="flex items-end gap-2 h-[160px]">
       {bars.map((b) => (
         <div key={b.label} className="flex-1 flex flex-col items-center gap-1.5">
-          <div className="text-[11px] mono">{b.v > 0 ? "+" : ""}{b.v}</div>
-          <div className={`${b.color} w-full rounded-sm`} style={{ height: `${(Math.abs(b.v) / max) * 100}%` }} />
+          <div className="text-[11px] mono">
+            {b.v > 0 ? "+" : ""}
+            {b.v}
+          </div>
+          <div
+            className={`${b.color} w-full rounded-sm`}
+            style={{ height: `${(Math.abs(b.v) / max) * 100}%` }}
+          />
           <div className="text-[10.5px] text-muted-foreground">{b.label}</div>
         </div>
       ))}

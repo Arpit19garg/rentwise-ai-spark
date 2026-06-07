@@ -38,11 +38,20 @@ export function Comps() {
 
       {/* Filter bar */}
       <div className="px-6 pb-3 flex flex-wrap gap-1.5">
-        {["Radius ≤ 1.5mi", "2 BR / 2 BA", "Sqft ±10%", "Leased ≤ 90d", "Exclude highways", "Include Midtown"].map((f) => (
+        {[
+          "Radius ≤ 1.5mi",
+          "2 BR / 2 BA",
+          "Sqft ±10%",
+          "Leased ≤ 90d",
+          "Exclude highways",
+          "Include Midtown",
+        ].map((f) => (
           <Chip key={f}>{f} ×</Chip>
         ))}
         <Chip tone="ai">✦ Recipe: Midtown-Tight</Chip>
-        <button className="text-[12px] text-muted-foreground hover:text-foreground">+ Add filter</button>
+        <button className="text-[12px] text-muted-foreground hover:text-foreground">
+          + Add filter
+        </button>
       </div>
 
       <div className="px-6 pb-6 grid grid-cols-[1fr_440px] gap-3">
@@ -51,7 +60,9 @@ export function Comps() {
             <table className="w-full text-[12.5px]">
               <thead className="bg-muted/60 text-[11px] uppercase tracking-wider text-muted-foreground sticky top-0">
                 <tr>
-                  <th className="text-left font-medium px-4 py-2.5 w-8"><input type="checkbox" /></th>
+                  <th className="text-left font-medium px-4 py-2.5 w-8">
+                    <input type="checkbox" />
+                  </th>
                   <th className="text-left font-medium px-2 py-2.5">Property</th>
                   <th className="text-right font-medium px-2 py-2.5">Dist</th>
                   <th className="text-right font-medium px-2 py-2.5">Rent</th>
@@ -69,17 +80,25 @@ export function Comps() {
                   const removed = status === "Removed";
                   return (
                     <tr key={addr} className={`hover:bg-muted/50 ${removed ? "opacity-50" : ""}`}>
-                      <td className="px-4"><input type="checkbox" /></td>
+                      <td className="px-4">
+                        <input type="checkbox" />
+                      </td>
                       <td className="px-2 py-2.5">
                         <div className="flex items-center gap-2">
-                          <div className="size-5 rounded-full bg-ai/15 text-ai grid place-items-center text-[10px] mono">{i + 1}</div>
+                          <div className="size-5 rounded-full bg-ai/15 text-ai grid place-items-center text-[10px] mono">
+                            {i + 1}
+                          </div>
                           <div className="wf-placeholder size-7 !border-solid !text-[8px]" />
-                          <span className={`truncate ${removed ? "line-through" : ""}`}>{addr}</span>
+                          <span className={`truncate ${removed ? "line-through" : ""}`}>
+                            {addr}
+                          </span>
                         </div>
                       </td>
                       <td className="px-2 text-right mono">{d}mi</td>
                       <td className="px-2 text-right mono font-medium">${rent.toLocaleString()}</td>
-                      <td className="px-2 text-right mono">{br}/{ba}</td>
+                      <td className="px-2 text-right mono">
+                        {br}/{ba}
+                      </td>
                       <td className="px-2 text-right mono">{sqft}</td>
                       <td className="px-2 text-right">
                         <Bar value={sim} />
@@ -90,7 +109,13 @@ export function Comps() {
                       <td className="px-2">
                         <Chip
                           tone={
-                            status === "Pinned" ? "info" : status === "Manual" ? "ai" : status === "Removed" ? "danger" : "neutral"
+                            status === "Pinned"
+                              ? "info"
+                              : status === "Manual"
+                                ? "ai"
+                                : status === "Removed"
+                                  ? "danger"
+                                  : "neutral"
                           }
                         >
                           {status}
@@ -117,15 +142,35 @@ export function Comps() {
 
         {/* Right: Map + ranking explanation */}
         <div className="space-y-3">
-          <Card title="Map" hint="Subject ★ · comps numbered by AI relevance" actions={<><Btn variant="ghost">Layers</Btn><Btn variant="ghost">Lasso</Btn></>}>
+          <Card
+            title="Map"
+            hint="Subject ★ · comps numbered by AI relevance"
+            actions={
+              <>
+                <Btn variant="ghost">Layers</Btn>
+                <Btn variant="ghost">Lasso</Btn>
+              </>
+            }
+          >
             <div className="p-3">
               <div className="wf-placeholder h-[260px] relative wf-grid-bg">
                 {/* Subject */}
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                  <div className="size-5 rounded-full bg-primary text-primary-foreground grid place-items-center text-[10px]">★</div>
+                  <div className="size-5 rounded-full bg-primary text-primary-foreground grid place-items-center text-[10px]">
+                    ★
+                  </div>
                 </div>
                 {/* Comps */}
-                {[[20,30,1],[70,25,2],[35,65,3],[80,70,4],[55,15,5],[15,80,6],[88,55,7],[45,40,8]].map(([x,y,n]) => (
+                {[
+                  [20, 30, 1],
+                  [70, 25, 2],
+                  [35, 65, 3],
+                  [80, 70, 4],
+                  [55, 15, 5],
+                  [15, 80, 6],
+                  [88, 55, 7],
+                  [45, 40, 8],
+                ].map(([x, y, n]) => (
                   <div
                     key={n}
                     className="absolute size-6 rounded-full bg-ai text-ai-foreground grid place-items-center text-[10px] font-medium border-2 border-surface"
@@ -136,9 +181,11 @@ export function Comps() {
                 ))}
               </div>
               <div className="mt-2 flex flex-wrap gap-1">
-                {["Schools", "Crime heat", "Flood", "Noise", "Transit", "Retail", "Parks"].map((l) => (
-                  <Chip key={l}>{l}</Chip>
-                ))}
+                {["Schools", "Crime heat", "Flood", "Noise", "Transit", "Retail", "Parks"].map(
+                  (l) => (
+                    <Chip key={l}>{l}</Chip>
+                  ),
+                )}
               </div>
             </div>
           </Card>
@@ -153,7 +200,10 @@ export function Comps() {
               </p>
               <div className="border border-border rounded-md p-2.5 bg-surface-2">
                 <div className="text-[11px] text-muted-foreground mb-1">#1 vs #3</div>
-                <p>1180 Peachtree edges 88 Marietta on transit proximity (+4 pts) and lease recency (last 30d vs 80d).</p>
+                <p>
+                  1180 Peachtree edges 88 Marietta on transit proximity (+4 pts) and lease recency
+                  (last 30d vs 80d).
+                </p>
               </div>
               <Btn variant="ai">✦ Ask Copilot to re-rank by walkability</Btn>
             </div>
