@@ -14,6 +14,7 @@ import { Route as WhatifRouteImport } from './routes/whatif'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as PortfolioRouteImport } from './routes/portfolio'
 import { Route as ModelRouteImport } from './routes/model'
+import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as FeedbackRouteImport } from './routes/feedback'
 import { Route as ExplainabilityRouteImport } from './routes/explainability'
 import { Route as CompsRouteImport } from './routes/comps'
@@ -44,6 +45,11 @@ const ModelRoute = ModelRouteImport.update({
   path: '/model',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedbackRoute = FeedbackRouteImport.update({
   id: '/feedback',
   path: '/feedback',
@@ -70,6 +76,7 @@ export interface FileRoutesByFullPath {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
   '/reports': typeof ReportsRoute
@@ -81,6 +88,7 @@ export interface FileRoutesByTo {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
   '/reports': typeof ReportsRoute
@@ -93,6 +101,7 @@ export interface FileRoutesById {
   '/comps': typeof CompsRoute
   '/explainability': typeof ExplainabilityRoute
   '/feedback': typeof FeedbackRoute
+  '/insights': typeof InsightsRoute
   '/model': typeof ModelRoute
   '/portfolio': typeof PortfolioRoute
   '/reports': typeof ReportsRoute
@@ -106,6 +115,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/insights'
     | '/model'
     | '/portfolio'
     | '/reports'
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/insights'
     | '/model'
     | '/portfolio'
     | '/reports'
@@ -128,6 +139,7 @@ export interface FileRouteTypes {
     | '/comps'
     | '/explainability'
     | '/feedback'
+    | '/insights'
     | '/model'
     | '/portfolio'
     | '/reports'
@@ -140,6 +152,7 @@ export interface RootRouteChildren {
   CompsRoute: typeof CompsRoute
   ExplainabilityRoute: typeof ExplainabilityRoute
   FeedbackRoute: typeof FeedbackRoute
+  InsightsRoute: typeof InsightsRoute
   ModelRoute: typeof ModelRoute
   PortfolioRoute: typeof PortfolioRoute
   ReportsRoute: typeof ReportsRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ModelRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feedback': {
       id: '/feedback'
       path: '/feedback'
@@ -220,6 +240,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompsRoute: CompsRoute,
   ExplainabilityRoute: ExplainabilityRoute,
   FeedbackRoute: FeedbackRoute,
+  InsightsRoute: InsightsRoute,
   ModelRoute: ModelRoute,
   PortfolioRoute: PortfolioRoute,
   ReportsRoute: ReportsRoute,
